@@ -1,0 +1,49 @@
+# COMUNICACIÓN ENTRE COMPONENTES
+
+La comunicación entre componentes se da enviando métodos por props, como con JS.
+
+## PARENT
+
+```js id="j2k5hf"
+deportes = ["Pesca", "Danza", "Patinaje sobre hielo", "Gimnasia"]
+```
+
+```js id="p9m3xa"
+state = { favorito: "" }
+```
+
+```js id="lgz5n1"
+mostrarFavorito = (deporteSeleccionado) => {
+    this.setState({
+        favorito: deporteSeleccionado
+    })
+}
+```
+
+## Enviar método al HIJO
+
+```jsx id="2zo0ee"
+{
+    this.deportes.map((sport, index) => {
+        return(<HijoDeportes nombre={sport} key ={index} mostrarFavorito = {this.mostrarFavorito}/>)
+    })
+}
+```
+
+## HIJO
+
+```jsx id="grm316"
+<button onClick ={this.seleccionarFavorito} >FAV</button>
+```
+
+```js id="grm316"
+seleccionarFavorito = () => {
+    this.props.mostrarFavorito(this.props.nombre)
+}
+```
+
+## Mostrar favorito
+
+```jsx id="x2k6vp"
+<h2>Su deporte favorito es: {this.state.favorito}</h2>
+```
