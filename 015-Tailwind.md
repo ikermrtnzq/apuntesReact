@@ -8,7 +8,7 @@ Este proyecto utiliza React creado con `npx create-react-app`.
 Abrimos una terminal en la carpeta raíz del proyecto y ejecutamos:
 
 ```bash
-npm install tailwindcss@3
+npm install -D tailwindcss@3
 ```
 
 ## 2. Crear el archivo de configuración
