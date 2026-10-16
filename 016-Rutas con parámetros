@@ -1,0 +1,41 @@
+# RUTAS CON PARÁMETROS
+
+Los parámetros se declaran en `Router.jsx`. Tiene que haber siempre una ruta para error y siempre es la última.
+
+En la ruta se pone el parámetro y en `element` se llama una función para obtener los componentes dinámicos.
+
+## Router.jsx
+
+```jsx
+import {Component} from "react"
+import {BrowserRouter, Routes, Route} from "react-router-dom"
+import Home from "./Home"
+import TablaMultiplicar from "./TablaMultiplicar"
+import NotFound from "./NotFound"
+import { useParams } from "react-router-dom"
+
+export default class Router extends Component{
+    render(){
+       function GetParametrosTabla () {
+          let {numero} = useParams()
+              return(<TablaMultiplicar numero={numero}/>)
+        }
+        return(
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home/>}></Route>
+                    <Route path="/tabla/:numero" element={<GetParametrosTabla/>}></Route>
+                    {/*PARA 404*/}
+                    <Route path="/*" element={<NotFound/>}></Route>
+                </Routes>
+            </BrowserRouter>
+        )
+    }
+}
+```
+
+## Menú
+
+```jsx
+<li><a href="/tabla/21">Tabla</a></li>
+```
