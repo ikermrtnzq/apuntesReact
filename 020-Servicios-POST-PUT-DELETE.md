@@ -1,76 +1,81 @@
 
-# CLASES DE SERVICIOS
+# SERVICIOS: POST, PUT Y DELETE
 
-Sirven para tener en un lugar todas las peticiones. Son clases.
-
-Creamos una carpeta `services` y ahí las clases `.js`. Dentro de cada clase habrá funciones, las cuales van a ser promesas (asíncronas).
-
-## Crear una clase de servicio
+## POST
 
 ```jsx
-import Global from '../Global';
-import axios from 'axios';
-
-export default class ServiceHospitales {
-    getHospitales = new Promise(function(resolve) {
-        let url = Global.urlApiHospitales;
-        let endpoint = "api/hospitales";
-
-        axios.get(url + endpoint).then((response) => {
-            resolve(response.data)
-        })
-    })
-}
-```
-
-## Instanciar el servicio desde un componente
-
-Luego, desde un componente, la instanciamos y usamos las funciones:
-
-```jsx
-import ServiceHospitales from '../services/ServiceHospitales';
-
-export default class Hospitales extends Component {
-    service = new ServiceHospitales();
-}
-```
-
-## Acceder a las funciones del servicio
-
-```jsx
-obtenerHospitales = () => {
-    this.service.getHospitales.then(result => {
-        this.setState({
-            hospitales: result
-        })
-    })
-}
-```
-
-## Pasar parámetros a una función
-
-Si queremos pasar parámetros a la función, hacemos la promesa dentro de la función:
-
-```jsx
-getDoctoresHospital(id) {
+crearHospital(hospital) {
     return new Promise(function(resolve) {
-        let url = Global.urlApiDoctores;
-        let endpoint = "api/Doctores/DoctoresHospital/";
+        let url = Global.urlApiHospitales
+        let endpoint = "api/hospitales"
 
-        axios.get(url + endpoint + id).then((response) => {
-            resolve(response.data)
+        axios.post(url + endpoint, hospital).then((response) => {
+            console.log("insertado")
+            resolve(response)
         })
     })
 }
 ```
 
-Y la llamada sería así:
+### Llamada desde el componente
 
 ```jsx
-buscarDoctores = () => {
-    this.service.getDoctoresHospital(this.props.idhospital).then(result => {
+guardarDatos = (event) => {
+    event.preventDefault();
+
+    let hospital = {
+        idHospital: parseInt(this.inputID.current.value),
+        nombre: this.inputNombre.current.value,
+        direccion: this.inputDireccion.current.value,
+        telefono: this.inputTlfno.current.value,
+        camas: parseInt(this.inputCamas.current.value)
+    }
+
+    this.service.crearHospital(hospital).then(result => {
         this.setState({
-            doctores: result
+            status: true
+        })
+    })
+}
+```
+
+## Mandar datos por URL y recibirlos por props
+
+```jsx
+<td style={{padding: "10px",border : "1px solid #D3D3D3"}}>
+    <NavLink to={"/update/"+departamento.numero+"/"+departamento.nombre+"/"+ departamento.localidad} />
+</td>
+```
+
+Así podemos mandar datos por URL, pero no es recomendable, ya que es peligroso.
+
+## UPDATE con PUT
+
+Para un `UPDATE` es exactamente igual que un `POST`, solo que usamos `axios.put`.
+
+```jsx
+updateDepartamento(departamento) {
+    return new Promise(function(resolve) {
+        let url = Global.urlApiDepartamentos;
+        let endpoint = "/api/departamentos";
+
+        axios.put(url + endpoint, departamento).then((response) => {
+            resolve(response)
+        })
+    })
+}
+```
+
+## DELETE
+
+```jsx
+deleteDepartamento(idDepartamento) {
+    return new Promise(function(resolve) {
+        let url = Global.urlApiDepartamentos;
+        let endpoint = "/api/departamentos/" + idDepartamento;
+
+        axios.delete(url + endpoint).then((response) => {
+            resolve(response)
         })
     })
 }
