@@ -1,3 +1,4 @@
+
 # RUTAS CON PARÁMETROS
 
 Los parámetros se declaran en `Router.jsx`, tiene que haber siempre una ruta para error y siempre es la última. En la ruta se pone el parámetro y en `element` se llama una función para obtener los componentes dinámicos.
